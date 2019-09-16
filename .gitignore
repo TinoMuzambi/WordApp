@@ -1,3 +1,5 @@
 /A4 Concurrent Programming.iml
-/example_dict.txt
 /.idea/
+*.class
+*txt
+*.iml

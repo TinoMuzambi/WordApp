@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
@@ -51,12 +52,25 @@ public class WordApp {
 	    //[snip]
   
 	    final JTextField textEntry = new JTextField("",20);
-	   textEntry.addActionListener(evt -> {
-           String text = textEntry.getText();
-           //[snip]
-           textEntry.setText("");
-           textEntry.requestFocus();
-       });
+	   textEntry.addActionListener(new AbstractAction() {
+		   @Override
+		   public void actionPerformed(ActionEvent e) {
+			   String text = textEntry.getText();
+			   for (int i = 0; i < noWords; i++) {
+				   if (words[i].matchWord(text)) {
+					   words[i].resetWord();
+					   score.caughtWord(text.length());
+				   }
+				   caught.setText("Caught: " + score.getCaught() + "    ");
+				   missed.setText("Missed:" + score.getMissed()+ "    ");
+				   scr.setText("Score:" + score.getScore()+ "    ");
+			   }
+
+			   //[snip]
+			   textEntry.setText("");
+			   textEntry.requestFocus();
+		   }
+	   });
 	   
 	   txt.add(textEntry);
 	   txt.setMaximumSize( txt.getPreferredSize() );

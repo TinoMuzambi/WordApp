@@ -30,7 +30,7 @@ public class WordPanel extends JPanel implements Runnable {
 		    }
 
             try {
-                Thread.sleep(200);
+                Thread.sleep(words[0].getSpeed());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -38,7 +38,7 @@ public class WordPanel extends JPanel implements Runnable {
                 for (int i = 0; i < noWords; i++) {
                     Random r = new Random();
                     int count = r.nextInt(30);
-                    words[i].setY(words[i].getY() + count);
+                    words[i].drop(count);
                 }
             }
             repaint();

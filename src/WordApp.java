@@ -1,36 +1,29 @@
 import javax.swing.*;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.IOException;
-
-
 import java.util.Scanner;
-import java.util.concurrent.*;
 //model is separate from the view.
 
 public class WordApp {
 //shared variables
-	static int noWords=4;
-	static int totalWords;
+	private static int noWords=4;
+	private static int totalWords;
 
-   	static int frameX=1000;
-	static int frameY=600;
-	static int yLimit=480;
+   	private static int frameX=1000;
+	private static int frameY=600;
+	private static int yLimit=480;
 
-	static WordDictionary dict = new WordDictionary(); //use default dictionary, to read from file eventually
+	private static WordDictionary dict = new WordDictionary(); //use default dictionary, to read from file eventually
 
-	static WordRecord[] words;
+	private static WordRecord[] words;
 	static volatile boolean done;  //must be volatile
-	static 	Score score = new Score();
+	private static 	Score score = new Score();
 
-	static WordPanel w;
+	private static WordPanel w;
 	
 	
 	
-	public static void setupGUI(int frameX,int frameY,int yLimit) {
+	private static void setupGUI(int frameX, int frameY, int yLimit) {
 		// Frame init and dimensions
     	JFrame frame = new JFrame("WordGame"); 
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,15 +51,12 @@ public class WordApp {
 	    //[snip]
   
 	    final JTextField textEntry = new JTextField("",20);
-	   textEntry.addActionListener(new ActionListener()
-	    {
-	      public void actionPerformed(ActionEvent evt) {
-	          String text = textEntry.getText();
-	          //[snip]
-	          textEntry.setText("");
-	          textEntry.requestFocus();
-	      }
-	    });
+	   textEntry.addActionListener(evt -> {
+           String text = textEntry.getText();
+           //[snip]
+           textEntry.setText("");
+           textEntry.requestFocus();
+       });
 	   
 	   txt.add(textEntry);
 	   txt.setMaximumSize( txt.getPreferredSize() );
@@ -74,31 +64,28 @@ public class WordApp {
 	    
 	    JPanel b = new JPanel();
         b.setLayout(new BoxLayout(b, BoxLayout.LINE_AXIS)); 
-	   	JButton startB = new JButton("Start");;
+	   	JButton startB = new JButton("Start");
 		
 			// add the listener to the jbutton to handle the "pressed" event
-			startB.addActionListener(new ActionListener()
-		    {
-		      public void actionPerformed(ActionEvent e)
-		      {
-		    	  //[snip]
-                  w.run();
-		    	  textEntry.requestFocus();  //return focus to the text entry field
-		      }
-		    });
-		JButton endB = new JButton("End");;
+			startB.addActionListener(e -> {
+                //[snip]
+                w.run();
+                textEntry.requestFocus();  //return focus to the text entry field
+            });
+		JButton endB = new JButton("End");
 			
 				// add the listener to the jbutton to handle the "pressed" event
-				endB.addActionListener(new ActionListener()
-			    {
-			      public void actionPerformed(ActionEvent e)
-			      {
-			    	  //[snip]
-			      }
-			    });
-		
+				endB.addActionListener(e -> {
+                    //[snip]
+                    w.setStart(false);
+                });
+
+		JButton quitB = new JButton("Quit");
+		quitB.addActionListener(e -> System.exit(0));
+
 		b.add(startB);
 		b.add(endB);
+		b.add(quitB);
 		
 		g.add(b);
     	
@@ -112,7 +99,7 @@ public class WordApp {
 	}
 
 	
-public static String[] getDictFromFile(String filename) {
+private static String[] getDictFromFile(String filename) {
 		String [] dictStr = null;
 		try {
 			Scanner dictReader = new Scanner(new FileInputStream(filename));
@@ -121,7 +108,7 @@ public static String[] getDictFromFile(String filename) {
 
 			dictStr=new String[dictLength];
 			for (int i=0;i<dictLength;i++) {
-				dictStr[i]=new String(dictReader.next());
+				dictStr[i]= dictReader.next();
 				//System.out.println(i+ " read '" + dictStr[i]+"'"); //for checking
 			}
 			dictReader.close();
@@ -151,7 +138,7 @@ public static String[] getDictFromFile(String filename) {
 		setupGUI(frameX, frameY, yLimit);  
     	//Start WordPanel thread - for redrawing animation
 
-		int x_inc=(int)frameX/noWords;
+		int x_inc= frameX /noWords;
 	  	//initialize shared array of current words
 
 		for (int i=0;i<noWords;i++) {

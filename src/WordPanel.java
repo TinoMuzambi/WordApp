@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class WordPanel extends JPanel implements Runnable {
 		public static volatile boolean done;
@@ -8,9 +9,11 @@ public class WordPanel extends JPanel implements Runnable {
 		private int noWords;
 		private int maxY;
 
+    public void setStart(boolean start) {
+        this.start = start;
+    }
 
-		
-		public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
 		    int width = getWidth();
 		    int height = getHeight();
             g.clearRect(0,0,width,height);
@@ -27,17 +30,18 @@ public class WordPanel extends JPanel implements Runnable {
 		    }
 
             try {
-                Thread.sleep(100);
+                Thread.sleep(200);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             if (start) {
                 for (int i = 0; i < noWords; i++) {
-                    words[i].setY(words[i].getY() + 10);
+                    Random r = new Random();
+                    int count = r.nextInt(30);
+                    words[i].setY(words[i].getY() + count);
                 }
             }
             repaint();
-
 		  }
 		
 		WordPanel(WordRecord[] words, int maxY) {

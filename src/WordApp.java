@@ -82,6 +82,7 @@ public class WordApp {
 		      public void actionPerformed(ActionEvent e)
 		      {
 		    	  //[snip]
+                  w.run();
 		    	  textEntry.requestFocus();  //return focus to the text entry field
 		      }
 		    });

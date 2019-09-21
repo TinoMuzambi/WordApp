@@ -39,6 +39,12 @@ public class WordPanel extends JPanel implements Runnable {
                     Random r = new Random();
                     int count = r.nextInt(30);
                     words[i].drop(count);
+                    if (words[i].dropped()) {
+                        WordApp.score.missedWord();
+                        WordApp.updateLabels();
+                        words[i].setWord("");
+                        words[i].resetWord();
+                    }
                 }
             }
             repaint();

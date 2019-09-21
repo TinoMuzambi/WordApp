@@ -18,11 +18,18 @@ public class WordApp {
 
 	private static WordRecord[] words;
 	static volatile boolean done;  //must be volatile
-	private static 	Score score = new Score();
+    static JLabel caught;
+    static JLabel missed;
+    static JLabel scr;
+	static 	Score score = new Score();
 
 	private static WordPanel w;
 	
-	
+	static void updateLabels() {
+        caught.setText("Caught: " + score.getCaught() + "    ");
+        missed.setText("Missed:" + score.getMissed() + "    ");
+        scr.setText("Score:" + score.getScore() + "    ");
+    }
 	
 	private static void setupGUI(int frameX, int frameY, int yLimit) {
 		// Frame init and dimensions
@@ -42,9 +49,9 @@ public class WordApp {
 	    
 	    JPanel txt = new JPanel();
 	    txt.setLayout(new BoxLayout(txt, BoxLayout.LINE_AXIS)); 
-	    JLabel caught =new JLabel("Caught: " + score.getCaught() + "    ");
-	    JLabel missed =new JLabel("Missed:" + score.getMissed()+ "    ");
-	    JLabel scr =new JLabel("Score:" + score.getScore()+ "    ");    
+	    caught =new JLabel("Caught: " + score.getCaught() + "    ");
+	    missed =new JLabel("Missed:" + score.getMissed()+ "    ");
+	    scr =new JLabel("Score:" + score.getScore()+ "    ");
 	    txt.add(caught);
 	    txt.add(missed);
 	    txt.add(scr);
@@ -61,9 +68,7 @@ public class WordApp {
 					   words[i].resetWord();
 					   score.caughtWord(text.length());
 				   }
-				   caught.setText("Caught: " + score.getCaught() + "    ");
-				   missed.setText("Missed:" + score.getMissed()+ "    ");
-				   scr.setText("Score:" + score.getScore()+ "    ");
+				   updateLabels();
 			   }
 
 			   //[snip]

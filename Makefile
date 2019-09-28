@@ -1,2 +1,15 @@
+BINDIR=bin
+SRCDIR=src
+DOCDIR=doc
+
 all:
-    javac -d build src/com/ur/src/*.java
+	javac -d $(BINDIR)/ src/*.java
+
+clean:
+	rm -f ${BINDIR}/*.class
+
+docs:
+	javadoc  -classpath ${BINDIR} -d ${DOCDIR} ${SRCDIR}/*.java
+
+cleandocs:
+	rm -rf ${DOCDIR}/*

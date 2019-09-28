@@ -3,3 +3,5 @@
 *.class
 *txt
 *.iml
+*.docx
+/doc

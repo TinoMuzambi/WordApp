@@ -38,7 +38,6 @@ public class WordPanel extends JPanel implements Runnable {
                 for (int i = 0; i < noWords; i++) {
                     WordThread wt = new WordThread(i);
                     wt.start();
-                    repaint();
                 }
             }
             repaint();
@@ -75,11 +74,11 @@ public class WordPanel extends JPanel implements Runnable {
                 WordApp.score.missedWord();
                 WordApp.updateLabels();
                 words[i].setWord("");
-                if (WordApp.totalWords < WordApp.score.getTotal() - WordApp.noWords) {
+                if (WordApp.totalWords - 1 < WordApp.score.getTotal()) {
                     words[i].resetWord();
+                    interrupt();
                 }
             }
-//                repaint();
         }
     }
 

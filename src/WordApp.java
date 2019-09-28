@@ -114,8 +114,6 @@ public class WordApp {
         frame.setContentPane(g);
        	//frame.pack();  // don't do this - packs it into small space
         frame.setVisible(true);
-
-
 	}
 
 	

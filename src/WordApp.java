@@ -38,7 +38,7 @@ public class WordApp {
     	frame.setSize(frameX, frameY);
     	
       	JPanel g = new JPanel();
-        g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
+        g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS));
       	g.setSize(frameX,frameY);
  
     	

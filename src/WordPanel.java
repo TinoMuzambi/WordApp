@@ -48,26 +48,30 @@ public class WordPanel extends JPanel implements Runnable {
 
             @Override
             public void run() {
-                super.run();
-                try {
-                    Thread.sleep(words[0].getSpeed());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if (start) {
-                    for (int i = 0; i < noWords; i++) {
-                        Random r = new Random();
-                        int count = r.nextInt(30);
-                        words[i].drop(count);
-                        if (words[i].dropped()) {
-                            WordApp.score.missedWord();
-                            WordApp.updateLabels();
-                            words[i].setWord("");
-                            words[i].resetWord();
+                if (WordApp.score.getTotal() < 10) {
+                    super.run();
+                    try {
+                        Thread.sleep(words[0].getSpeed());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if (start) {
+                        for (int i = 0; i < noWords; i++) {
+                            Random r = new Random();
+                            int count = r.nextInt(30);
+                            words[i].drop(count);
+                            if (words[i].dropped()) {
+                                WordApp.score.missedWord();
+                                WordApp.updateLabels();
+                                words[i].setWord("");
+                                if (WordApp.score.getTotal() < 6) {
+                                    words[i].resetWord();
+                                }
+                            }
                         }
                     }
+                    repaint();
                 }
-                repaint();
             }
         }
 

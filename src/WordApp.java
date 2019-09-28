@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class WordApp {
 //shared variables
-	private static int noWords=4;
-	private static int totalWords;
+	static int noWords=4;
+	static int totalWords;
 
    	private static int frameX=1000;
 	private static int frameY=600;
@@ -97,6 +97,7 @@ public class WordApp {
 				endB.addActionListener(e -> {
                     //[snip]
                     w.setStart(false);
+                    score.resetScore();
                 });
 
 		JButton quitB = new JButton("Quit");

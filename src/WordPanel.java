@@ -14,7 +14,6 @@ public class WordPanel extends JPanel implements Runnable {
     }
 
     public void paintComponent(Graphics g) {
-            WordThread wt = new WordThread();
 		    int width = getWidth();
 		    int height = getHeight();
             g.clearRect(0,0,width,height);
@@ -29,8 +28,21 @@ public class WordPanel extends JPanel implements Runnable {
 		    	//g.drawString(words[i].getWord(),words[i].getX(),words[i].getY());	
                 g.drawString(words[i].getWord(),words[i].getX(),words[i].getY()+20);  //y-offset for skeleton so that you can see the words
 		    }
-            wt.start();
-		  }
+        if (WordApp.score.getTotal() < 10) {
+            try {
+                Thread.sleep(words[0].getSpeed());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (start) {
+                for (int i = 0; i < noWords; i++) {
+                    WordThread wt = new WordThread(i);
+                    wt.start();
+                }
+            }
+            repaint();
+        }
+    }
 		
 		WordPanel(WordRecord[] words, int maxY) {
 			this.words = words; //will this work?
@@ -46,31 +58,25 @@ public class WordPanel extends JPanel implements Runnable {
 
 		class WordThread extends Thread {
 
+            int i;
+
+            WordThread(int i) {
+                this.i = i;
+            }
+
             @Override
             public void run() {
-                if (WordApp.score.getTotal() < 10) {
-                    super.run();
-                    try {
-                        Thread.sleep(words[0].getSpeed());
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                super.run();
+                Random r = new Random();
+                int count = r.nextInt(30);
+                words[i].drop(count);
+                if (words[i].dropped()) {
+                    WordApp.score.missedWord();
+                    WordApp.updateLabels();
+                    words[i].setWord("");
+                    if (WordApp.totalWords < WordApp.score.getTotal() - WordApp.noWords) {
+                        words[i].resetWord();
                     }
-                    if (start) {
-                        for (int i = 0; i < noWords; i++) {
-                            Random r = new Random();
-                            int count = r.nextInt(30);
-                            words[i].drop(count);
-                            if (words[i].dropped()) {
-                                WordApp.score.missedWord();
-                                WordApp.updateLabels();
-                                words[i].setWord("");
-                                if (WordApp.score.getTotal() < 6) {
-                                    words[i].resetWord();
-                                }
-                            }
-                        }
-                    }
-                    repaint();
                 }
             }
         }

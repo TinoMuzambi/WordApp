@@ -65,16 +65,16 @@ public class WordRecord {
 		return fallingSpeed;
 	}
 
-	public synchronized void setPos(int x, int y) {
+	public void setPos(int x, int y) {
 		setY(y);
 		setX(x);
 	}
 
-	private synchronized void resetPos() {
+	private void resetPos() {
 		setY(0);
 	}
 
-	synchronized void resetWord() {
+	void resetWord() {
 		resetPos();
 		text = dict.getNewWord();
 		dropped = false;
@@ -82,7 +82,7 @@ public class WordRecord {
 
 	}
 	
-	synchronized boolean matchWord(String typedText) {
+	boolean matchWord(String typedText) {
 		if (typedText.equals(this.text)) {
 			resetWord();
 			return true;

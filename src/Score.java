@@ -11,19 +11,19 @@ public class Score {
 		gameScore = new AtomicInteger(0);
 	}
 
-	public  int getMissed() {
+	public synchronized int getMissed() {
 		return missedWords.intValue();
 	}
 
-	public  int getCaught() {
+	public synchronized int getCaught() {
 		return caughtWords.intValue();
 	}
 	
-	public  int getTotal() {
+	public synchronized int getTotal() {
 		return (missedWords.intValue() + caughtWords.intValue());
 	}
 
-	public  int getScore() {
+	public synchronized int getScore() {
 		return gameScore.intValue();
 	}
 	
